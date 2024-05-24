@@ -15,9 +15,9 @@ jobs:
     steps:
       - name: Set running flag
         run: echo "RUNNING=1" >> $GITHUB_ENV
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: technote-space/get-git-comment-action@v1
-      - uses: technote-space/get-diff-action@gh-actions
+      - uses: PlatziDev/get-diff-action@gh-actions
         with:
           PATTERNS: +(src|__tests__)/**/*.+(js|ts)
           FILES: |
@@ -28,9 +28,9 @@ jobs:
         run: echo "RUNNING=" >> $GITHUB_ENV
         if: "! env.GIT_DIFF"
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: yarn
         if: env.RUNNING
       - name: Install Package dependencies
@@ -54,9 +54,9 @@ jobs:
     steps:
       - name: Set running flag
         run: echo "RUNNING=1" >> $GITHUB_ENV
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: technote-space/get-git-comment-action@v1
-      - uses: technote-space/get-diff-action@gh-actions
+      - uses: PlatziDev/get-diff-action@gh-actions
         with:
           PATTERNS: +(src|__tests__)/**/*.+(js|ts|snap)
           FILES: |
@@ -82,9 +82,9 @@ jobs:
             echo "RUNNING=" >> $GITHUB_ENV
           fi
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: yarn
         if: env.RUNNING
       - name: Install Package dependencies
@@ -110,10 +110,10 @@ jobs:
     timeout-minutes: 5
     if: startsWith(github.ref, 'refs/tags/')
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: yarn
 
       - uses: technote-space/load-config-action@v1
@@ -148,7 +148,7 @@ jobs:
           fi
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         if: env.RUNNING
       - name: Check package version
         uses: technote-space/package-version-check-action@v1
@@ -170,16 +170,16 @@ jobs:
         if: env.RUNNING && matrix.target == 'gpr'
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           registry-url: https://registry.npmjs.org/
           cache: yarn
         if: env.RUNNING && matrix.target == 'npm'
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           registry-url: https://npm.pkg.github.com
           cache: yarn
         if: env.RUNNING && matrix.target == 'gpr'
@@ -228,18 +228,3 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: success() && env.SLACK_WEBHOOK_URL
-
-  slack:
-    name: Slack
-    needs: publishRelease
-    runs-on: ubuntu-latest
-    timeout-minutes: 3
-    if: always()
-    steps:
-      - uses: technote-space/workflow-conclusion-action@v3
-      - uses: 8398a7/action-slack@v3
-        with:
-          status: failure
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: env.WORKFLOW_CONCLUSION == 'failure' && env.SLACK_WEBHOOK_URL
