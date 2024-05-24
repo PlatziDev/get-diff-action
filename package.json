@@ -1,6 +1,6 @@
 {
-  "name": "@technote-space/get-diff-action",
-  "version": "6.1.2",
+  "name": "@PlatziDev/get-diff-action",
+  "version": "0.1.0",
   "description": "GitHub actions to get git diff.",
   "keywords": [
     "github",
@@ -16,9 +16,8 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Technote",
-    "email": "technote.space@gmail.com",
-    "url": "https://technote.space"
+    "name": "Platzi Team",
+    "url": "https://platzi.com"
   },
   "files": [
     "lib",
