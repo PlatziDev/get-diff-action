@@ -46,17 +46,14 @@ jobs:
   cover:
     name: Coverage
     needs: eslint
-    runs-on: ${{matrix.os}}
+    runs-on: ubuntu-latest
     timeout-minutes: 10
-    strategy:
-      matrix:
-        os: [ubuntu-20.04, ubuntu-22.04, ubuntu-latest, macos-latest]
     steps:
       - name: Set running flag
         run: echo "RUNNING=1" >> $GITHUB_ENV
       - uses: actions/checkout@v4
       - uses: technote-space/get-git-comment-action@v1
-      - uses: PlatziDev/get-diff-action@gh-actions
+      - uses: technote-space/get-diff-action@v6.1.2
         with:
           PATTERNS: +(src|__tests__)/**/*.+(js|ts|snap)
           FILES: |
@@ -68,13 +65,13 @@ jobs:
         run: echo "RUNNING=" >> $GITHUB_ENV
         if: "! env.GIT_DIFF"
       - name: Set running flag
-        if: "matrix.os == 'ubuntu-latest' && ! startsWith(github.ref, 'refs/tags/') && github.event.base_ref == format('refs/heads/{0}', github.event.repository.default_branch)"
+        if: "! startsWith(github.ref, 'refs/tags/') && github.event.base_ref == format('refs/heads/{0}', github.event.repository.default_branch)"
         run: echo "RUNNING=1" >> $GITHUB_ENV
       - name: Set running flag
-        if: "matrix.os == 'ubuntu-latest' && ! startsWith(github.ref, 'refs/tags/') && startsWith(github.base_ref, 'refs/heads/develop/v')"
+        if: "! startsWith(github.ref, 'refs/tags/') && startsWith(github.base_ref, 'refs/heads/develop/v')"
         run: echo "RUNNING=1" >> $GITHUB_ENV
       - name: Set running flag
-        if: matrix.os == 'ubuntu-latest' && startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/v')
         run: echo "RUNNING=1" >> $GITHUB_ENV
       - name: Set running flag
         run: |
@@ -101,7 +98,6 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           COVERAGE_FILE: ./coverage/lcov.info
-        if: env.RUNNING && matrix.os == 'ubuntu-latest'
 
   release:
     name: Release GitHub Actions
