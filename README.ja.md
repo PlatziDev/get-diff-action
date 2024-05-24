@@ -56,8 +56,8 @@ jobs:
     name: ESLint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: PlatziDev/get-diff-action@v6
+      - uses: actions/checkout@v4
+      - uses: PlatziDev/get-diff-action@v0.1.0
         with:
           PATTERNS: |
             +(src|__tests__)/**/*.ts
@@ -105,8 +105,8 @@ jobs:
     name: ESLint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: PlatziDev/get-diff-action@v6
+      - uses: actions/checkout@v4
+      - uses: PlatziDev/get-diff-action@v0.1.0
         with:
           PATTERNS: |
             +(src|__tests__)/**/*.ts
@@ -243,8 +243,8 @@ jobs:
     name: ESLint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: PlatziDev/get-diff-action@v6
+      - uses: actions/checkout@v4
+      - uses: PlatziDev/get-diff-action@v0.1.0
         with:
           CHECK_ONLY_COMMIT_WHEN_DRAFT: true
       # ...
@@ -259,8 +259,8 @@ jobs:
     name: Dump
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: PlatziDev/get-diff-action@v6
+      - uses: actions/checkout@v4
+      - uses: PlatziDev/get-diff-action@v0.1.0
         with:
           PATTERNS: |
             +(src|__tests__)/**/*.ts
@@ -291,8 +291,8 @@ jobs:
     name: Dump
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: PlatziDev/get-diff-action@v6
+      - uses: actions/checkout@v4
+      - uses: PlatziDev/get-diff-action@v0.1.0
         with:
           PATTERNS: '*.ts'
           RELATIVE: 'src/abc'
