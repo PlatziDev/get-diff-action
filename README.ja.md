@@ -305,8 +305,3 @@ jobs:
 > Run echo 'test1.ts' 'test2.ts'
 test1.ts test2.ts
 ```
-
-## Author
-[GitHub (Technote)](https://github.com/technote-space)
-
-[Blog](https://technote.space)
