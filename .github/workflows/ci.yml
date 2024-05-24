@@ -17,7 +17,7 @@ jobs:
         run: echo "RUNNING=1" >> $GITHUB_ENV
       - uses: actions/checkout@v4
       - uses: technote-space/get-git-comment-action@v1
-      - uses: PlatziDev/get-diff-action@gh-actions
+      - uses: technote-space/get-diff-action@v6.1.2
         with:
           PATTERNS: +(src|__tests__)/**/*.+(js|ts)
           FILES: |
