@@ -15,9 +15,9 @@ jobs:
     steps:
       - name: Set running flag
         run: echo "RUNNING=1" >> $GITHUB_ENV
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: technote-space/get-git-comment-action@v1
-      - uses: technote-space/get-diff-action@gh-actions
+      - uses: technote-space/get-diff-action@v6.1.2
         with:
           PATTERNS: +(src|__tests__)/**/*.+(js|ts)
           FILES: |
@@ -28,9 +28,9 @@ jobs:
         run: echo "RUNNING=" >> $GITHUB_ENV
         if: "! env.GIT_DIFF"
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: yarn
         if: env.RUNNING
       - name: Install Package dependencies
@@ -46,17 +46,14 @@ jobs:
   cover:
     name: Coverage
     needs: eslint
-    runs-on: ${{matrix.os}}
+    runs-on: ubuntu-latest
     timeout-minutes: 10
-    strategy:
-      matrix:
-        os: [ubuntu-20.04, ubuntu-22.04, ubuntu-latest, macos-latest]
     steps:
       - name: Set running flag
         run: echo "RUNNING=1" >> $GITHUB_ENV
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: technote-space/get-git-comment-action@v1
-      - uses: technote-space/get-diff-action@gh-actions
+      - uses: technote-space/get-diff-action@v6.1.2
         with:
           PATTERNS: +(src|__tests__)/**/*.+(js|ts|snap)
           FILES: |
@@ -68,13 +65,13 @@ jobs:
         run: echo "RUNNING=" >> $GITHUB_ENV
         if: "! env.GIT_DIFF"
       - name: Set running flag
-        if: "matrix.os == 'ubuntu-latest' && ! startsWith(github.ref, 'refs/tags/') && github.event.base_ref == format('refs/heads/{0}', github.event.repository.default_branch)"
+        if: "! startsWith(github.ref, 'refs/tags/') && github.event.base_ref == format('refs/heads/{0}', github.event.repository.default_branch)"
         run: echo "RUNNING=1" >> $GITHUB_ENV
       - name: Set running flag
-        if: "matrix.os == 'ubuntu-latest' && ! startsWith(github.ref, 'refs/tags/') && startsWith(github.base_ref, 'refs/heads/develop/v')"
+        if: "! startsWith(github.ref, 'refs/tags/') && startsWith(github.base_ref, 'refs/heads/develop/v')"
         run: echo "RUNNING=1" >> $GITHUB_ENV
       - name: Set running flag
-        if: matrix.os == 'ubuntu-latest' && startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/v')
         run: echo "RUNNING=1" >> $GITHUB_ENV
       - name: Set running flag
         run: |
@@ -82,9 +79,9 @@ jobs:
             echo "RUNNING=" >> $GITHUB_ENV
           fi
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: yarn
         if: env.RUNNING
       - name: Install Package dependencies
@@ -101,7 +98,6 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           COVERAGE_FILE: ./coverage/lcov.info
-        if: env.RUNNING && matrix.os == 'ubuntu-latest'
 
   release:
     name: Release GitHub Actions
@@ -110,10 +106,10 @@ jobs:
     timeout-minutes: 5
     if: startsWith(github.ref, 'refs/tags/')
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: yarn
 
       - uses: technote-space/load-config-action@v1
@@ -148,7 +144,7 @@ jobs:
           fi
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         if: env.RUNNING
       - name: Check package version
         uses: technote-space/package-version-check-action@v1
@@ -170,16 +166,16 @@ jobs:
         if: env.RUNNING && matrix.target == 'gpr'
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           registry-url: https://registry.npmjs.org/
           cache: yarn
         if: env.RUNNING && matrix.target == 'npm'
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           registry-url: https://npm.pkg.github.com
           cache: yarn
         if: env.RUNNING && matrix.target == 'gpr'
@@ -217,29 +213,6 @@ jobs:
         id: drafter
         uses: technote-space/release-drafter@v6
         with:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           DRAFT: false
           NAME: ${{ env.TAG_NAME }}
           TAG: ${{ env.TAG_NAME }}
-      - uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          text: ${{ format('<{0}>', steps.drafter.outputs.html_url) }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: success() && env.SLACK_WEBHOOK_URL
-
-  slack:
-    name: Slack
-    needs: publishRelease
-    runs-on: ubuntu-latest
-    timeout-minutes: 3
-    if: always()
-    steps:
-      - uses: technote-space/workflow-conclusion-action@v3
-      - uses: 8398a7/action-slack@v3
-        with:
-          status: failure
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: env.WORKFLOW_CONCLUSION == 'failure' && env.SLACK_WEBHOOK_URL

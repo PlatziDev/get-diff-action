@@ -6,13 +6,13 @@
     "github",
     "github actions"
   ],
-  "homepage": "https://github.com/technote-space/get-diff-action",
+  "homepage": "https://github.com/PlatziDev/get-diff-action",
   "bugs": {
-    "url": "https://github.com/technote-space/get-diff-action/issues"
+    "url": "https://github.com/PlatziDev/get-diff-action/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/technote-space/get-diff-action.git"
+    "url": "https://github.com/PlatziDev/get-diff-action.git"
   },
   "license": "MIT",
   "author": {

@@ -18,7 +18,7 @@ jobs:
         with:
           CONFIG_FILENAME: workflow-settings.json, workflow-details.json
           IGNORE_WARNING: 'true'
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: technote-space/get-git-comment-action@v1
       - name: Get version
         uses: technote-space/get-next-version-action@v1
@@ -36,7 +36,7 @@ jobs:
           HEAD_REF: ${{ github.head_ref }}
           RUN_ID: ${{ github.run_id }}
         if: env.NEXT_VERSION
-      - uses: actions/github-script@v3
+      - uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |

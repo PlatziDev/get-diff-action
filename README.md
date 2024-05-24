@@ -1,9 +1,9 @@
 # Get Diff Action
 
-[![CI Status](https://github.com/technote-space/get-diff-action/workflows/CI/badge.svg)](https://github.com/technote-space/get-diff-action/actions)
-[![codecov](https://codecov.io/gh/technote-space/get-diff-action/branch/main/graph/badge.svg)](https://codecov.io/gh/technote-space/get-diff-action)
-[![CodeFactor](https://www.codefactor.io/repository/github/technote-space/get-diff-action/badge)](https://www.codefactor.io/repository/github/technote-space/get-diff-action)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/technote-space/get-diff-action/blob/main/LICENSE)
+[![CI Status](https://github.com/PlatziDev/get-diff-action/workflows/CI/badge.svg)](https://github.com/PlatziDev/get-diff-action/actions)
+[![codecov](https://codecov.io/gh/PlatziDev/get-diff-action/branch/main/graph/badge.svg)](https://codecov.io/gh/PlatziDev/get-diff-action)
+[![CodeFactor](https://www.codefactor.io/repository/github/PlatziDev/get-diff-action/badge)](https://www.codefactor.io/repository/github/PlatziDev/get-diff-action)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/PlatziDev/get-diff-action/blob/main/LICENSE)
 
 *Read this in other languages: [English](README.md), [日本語](README.ja.md).*
 
@@ -41,10 +41,10 @@ You can get the differences via env or action output.
 ## Screenshots
 1. Example workflow
 
-   ![Example workflow](https://raw.githubusercontent.com/technote-space/get-diff-action/images/workflow.png)
+   ![Example workflow](https://raw.githubusercontent.com/PlatziDev/get-diff-action/images/workflow.png)
 1. Skip
 
-   ![Skip](https://raw.githubusercontent.com/technote-space/get-diff-action/images/skip.png)
+   ![Skip](https://raw.githubusercontent.com/PlatziDev/get-diff-action/images/skip.png)
 
 ## Usage
 Basic Usage
@@ -56,8 +56,8 @@ jobs:
     name: ESLint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: technote-space/get-diff-action@v6
+      - uses: actions/checkout@v4
+      - uses: PlatziDev/get-diff-action@v0.1.0
         with:
           PATTERNS: |
             +(src|__tests__)/**/*.ts
@@ -105,8 +105,8 @@ jobs:
     name: ESLint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: technote-space/get-diff-action@v6
+      - uses: actions/checkout@v4
+      - uses: PlatziDev/get-diff-action@v0.1.0
         with:
           PATTERNS: |
             +(src|__tests__)/**/*.ts
@@ -243,8 +243,8 @@ jobs:
     name: ESLint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: technote-space/get-diff-action@v6
+      - uses: actions/checkout@v4
+      - uses: PlatziDev/get-diff-action@v0.1.0
         with:
           CHECK_ONLY_COMMIT_WHEN_DRAFT: true
       # ...
@@ -259,8 +259,8 @@ jobs:
     name: Dump
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: technote-space/get-diff-action@v6
+      - uses: actions/checkout@v4
+      - uses: PlatziDev/get-diff-action@v0.1.0
         with:
           PATTERNS: |
             +(src|__tests__)/**/*.ts
@@ -291,8 +291,8 @@ jobs:
     name: Dump
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: technote-space/get-diff-action@v6
+      - uses: actions/checkout@v4
+      - uses: PlatziDev/get-diff-action@v0.1.0
         with:
           PATTERNS: '*.ts'
           RELATIVE: 'src/abc'
@@ -305,8 +305,3 @@ If the files `src/abc/test1.ts`, `src/abc/test2.ts`, `src/abc/test3.txt`, and `s
 > Run echo 'test1.ts' 'test2.ts'
 test1.ts test2.ts
 ```
-
-## Author
-[GitHub (Technote)](https://github.com/technote-space)
-
-[Blog](https://technote.space)
